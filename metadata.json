@@ -1,0 +1,7 @@
+{
+  "name": "Conexão INHAMBUPE",
+  "description": "App de mobilidade urbana e serviços para Inhambupe. Sistema baseado em créditos pré-pagos para prestadores de serviços.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
