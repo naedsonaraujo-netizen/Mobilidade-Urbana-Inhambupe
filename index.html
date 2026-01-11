@@ -3,29 +3,85 @@
 <html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Conexão Inhambupe</title>
+    
+    <!-- Fallback de Estilo para evitar tela branca imediata -->
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #121212;
+        font-family: sans-serif;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+      }
+      #initial-loader {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+      }
+      .spinner {
+        width: 40px;
+        height: 40px;
+        border: 4px solid rgba(255, 255, 255, 0.1);
+        border-left-color: #10b981;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+      #error-display {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: #991b1b;
+        color: white;
+        padding: 20px;
+        font-family: monospace;
+        font-size: 12px;
+        z-index: 9999;
+        overflow-y: auto;
+      }
+    </style>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-      body {
-        font-family: 'Inter', sans-serif;
-        background-color: #121212;
-      }
-      /* Previne scroll horizontal acidental */
-      html, body {
-        overflow-x: hidden;
-        height: 100%;
-      }
-      #root {
-        min-height: 100%;
-      }
-      /* Esconde a scrollbar mas mantém o scroll funcional */
-      .no-scrollbar::-webkit-scrollbar { display: none; }
-      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    </style>
+    
+    <!-- Script de Captura de Erros (Crucial para APK) -->
+    <script>
+      window.onerror = function(msg, url, line, col, error) {
+        var display = document.getElementById('error-display');
+        var loader = document.getElementById('initial-loader');
+        if (display) {
+          display.style.display = 'block';
+          display.innerHTML += '<div><strong>Erro:</strong> ' + msg + '<br><strong>Local:</strong> ' + url + ':' + line + '</div><hr>';
+        }
+        if (loader) loader.style.display = 'none';
+        return false;
+      };
+      
+      // Verifica suporte a importmap
+      window.addEventListener('DOMContentLoaded', function() {
+        if (!HTMLScriptElement.supports || !HTMLScriptElement.supports('importmap')) {
+          console.error('Este dispositivo não suporta importmaps. O app pode falhar.');
+          // Opcionalmente você poderia carregar um polyfill aqui
+        }
+      });
+    </script>
+
     <script type="importmap">
     {
       "imports": {
@@ -39,6 +95,20 @@
     </script>
   </head>
   <body class="antialiased">
-    <div id="root"></div>
+    <div id="error-display">
+      <h2 style="margin-top:0">Ocorreu um erro ao carregar o App:</h2>
+    </div>
+
+    <div id="root">
+      <div id="initial-loader">
+        <div class="spinner"></div>
+        <div style="font-weight: bold; letter-spacing: 0.1em; font-size: 14px; color: #10b981;">
+          CONEXÃO INHAMBUPE
+        </div>
+        <div style="font-size: 10px; color: #666; margin-top: -10px;">Carregando sistema...</div>
+      </div>
+    </div>
+
+    <script type="module" src="index.tsx"></script>
   </body>
 </html>

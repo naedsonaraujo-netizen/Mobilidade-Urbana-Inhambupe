@@ -39,10 +39,15 @@ const UserRegisterScreen: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Define explicitamente como usuário comum
+    localStorage.setItem('user_role', 'user');
     localStorage.setItem('temp_login_name', formData.firstName);
+    
     if (formData.photo) {
       localStorage.setItem('temp_user_photo', formData.photo);
     }
+    
     alert(`Cadastro realizado com sucesso! Seu login é: ${formData.firstName}`);
     navigate('/login');
   };

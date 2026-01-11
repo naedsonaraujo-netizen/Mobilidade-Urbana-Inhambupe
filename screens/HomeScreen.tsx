@@ -20,6 +20,7 @@ const HomeScreen: React.FC = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('is_logged_in');
+    localStorage.removeItem('user_role');
     window.location.reload();
   };
 
