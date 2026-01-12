@@ -10,6 +10,7 @@ import GasScreen from './screens/GasScreen';
 import ServerRegisterScreen from './screens/ServerRegisterScreen';
 import ServiceSelectionScreen from './screens/ServiceSelectionScreen';
 import ServerDashboardScreen from './screens/ServerDashboardScreen';
+import RefillCreditsScreen from './screens/RefillCreditsScreen';
 
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
@@ -23,14 +24,14 @@ const App: React.FC = () => {
     setUserRole(role);
   }, [location]);
 
-  if (isLoggedIn === null) return <div className="min-h-screen bg-[#1a1c1e]"></div>;
+  if (isLoggedIn === null) return <div className="min-h-screen bg-[#050a1e]"></div>;
 
   const getRedirectPath = () => {
     return userRole === 'server' ? '/server-dashboard' : '/';
   };
 
   return (
-    <div className="min-h-screen bg-[#121212]">
+    <div className="min-h-screen bg-[#050a1e]">
       <Routes>
         <Route 
           path="/" 
@@ -44,6 +45,7 @@ const App: React.FC = () => {
         <Route path="/mototaxi" element={<MototaxiScreen />} />
         <Route path="/gas" element={<GasScreen />} />
         <Route path="/server-dashboard" element={<ServerDashboardScreen />} />
+        <Route path="/refill-credits" element={<RefillCreditsScreen />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </div>

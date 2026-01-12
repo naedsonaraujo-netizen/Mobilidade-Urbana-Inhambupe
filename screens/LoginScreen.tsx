@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ChevronLeft, User, Lock, Eye, EyeOff, LogIn, HelpCircle } from 'lucide-react';
+import { ChevronLeft, User, Lock, Eye, EyeOff, LogIn, HelpCircle, MapPin } from 'lucide-react';
 
 const LoginScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -12,67 +12,48 @@ const LoginScreen: React.FC = () => {
 
   useEffect(() => {
     const savedLogin = localStorage.getItem('temp_login_name');
-    if (savedLogin) {
-      setLogin(savedLogin);
-    }
+    if (savedLogin) setLogin(savedLogin);
   }, []);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-
-    // Simulação pequena de processamento
     setTimeout(() => {
       localStorage.setItem('is_logged_in', 'true');
       localStorage.setItem('user_name', login);
-      
       const role = localStorage.getItem('user_role');
-      
-      if (role === 'server') {
-        navigate('/server-dashboard', { replace: true });
-      } else {
-        navigate('/', { replace: true });
-      }
-    }, 500);
-  };
-
-  const handleForgotPassword = () => {
-    alert('Funcionalidade de recuperação de senha será enviada para o seu telefone cadastrado.');
+      navigate(role === 'server' ? '/server-dashboard' : '/', { replace: true });
+    }, 800);
   };
 
   return (
-    <div className="flex flex-col min-h-screen max-w-md mx-auto bg-[#1a1c1e] text-white shadow-2xl relative overflow-hidden">
+    <div className="flex flex-col min-h-screen max-w-md mx-auto bg-[#050a1e] text-white shadow-2xl relative overflow-hidden">
       
-      {/* Top Bar */}
-      <div className="flex justify-between items-center p-6">
-        <button 
-          onClick={() => navigate('/')}
-          className="p-2 bg-[#2d2f31] rounded-xl text-gray-400 hover:text-white transition"
-          disabled={isLoading}
-        >
+      <div className="p-6 flex justify-between items-center">
+        <button onClick={() => navigate('/')} className="p-2 bg-white/5 rounded-xl text-gray-400">
           <ChevronLeft size={24} />
         </button>
-        <h2 className="text-sm font-bold uppercase tracking-widest text-gray-400">Login</h2>
+        <span className="text-[10px] font-black uppercase tracking-widest text-[#00d1a0]">AkiTen Login</span>
         <div className="w-10"></div>
       </div>
 
-      {/* Header Info */}
-      <div className="px-8 pt-6 pb-12 text-center">
-        <h1 className="text-4xl font-extrabold tracking-tighter text-white uppercase italic">
-          Conexão <br />
-          <span className="text-emerald-400 not-italic">INHAMBUPE</span>
+      <div className="px-8 pt-8 pb-12 flex flex-col items-center text-center">
+        <div className="w-16 h-16 bg-[#00d1a0] rounded-2xl flex items-center justify-center shadow-lg mb-6">
+          <MapPin size={32} className="text-white" />
+        </div>
+        <h1 className="text-4xl font-black uppercase italic">
+          Aki<span className="text-[#00d1a0] not-italic">Ten</span>
         </h1>
-        <p className="text-gray-400 text-sm mt-4">Acesse sua conta para continuar.</p>
+        <p className="text-gray-400 text-sm mt-3 font-medium">Pronto para começar? Vamos nessa!</p>
       </div>
 
-      {/* White Content Card */}
-      <div className="flex-1 bg-white rounded-t-[40px] p-8 flex flex-col justify-between">
+      <div className="flex-1 bg-white rounded-t-[48px] p-8 flex flex-col justify-between">
         <form onSubmit={handleLogin} className="space-y-6">
           <div className="space-y-4">
             <div className="space-y-1">
-              <label className="text-xs font-bold text-gray-400 uppercase tracking-wider ml-1">Seu Login (Nome)</label>
+              <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Usuário</label>
               <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300">
                   <User size={18} />
                 </span>
                 <input
@@ -80,17 +61,16 @@ const LoginScreen: React.FC = () => {
                   value={login}
                   onChange={(e) => setLogin(e.target.value)}
                   required
-                  disabled={isLoading}
                   placeholder="Seu nome de usuário"
-                  className="w-full bg-gray-50 border border-gray-200 text-[#1a1c1e] py-4 pl-12 pr-4 rounded-2xl focus:ring-2 focus:ring-emerald-400 focus:border-transparent outline-none transition-all placeholder:text-gray-300 disabled:opacity-50"
+                  className="w-full bg-gray-50 border-2 border-transparent text-[#050a1e] py-4 pl-12 pr-4 rounded-2xl focus:border-[#00d1a0] focus:bg-white outline-none transition-all font-bold"
                 />
               </div>
             </div>
 
             <div className="space-y-1">
-              <label className="text-xs font-bold text-gray-400 uppercase tracking-wider ml-1">Senha</label>
+              <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Senha</label>
               <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300">
                   <Lock size={18} />
                 </span>
                 <input
@@ -98,67 +78,41 @@ const LoginScreen: React.FC = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  disabled={isLoading}
-                  placeholder="Sua senha secreta"
-                  className="w-full bg-gray-50 border border-gray-200 text-[#1a1c1e] py-4 pl-12 pr-12 rounded-2xl focus:ring-2 focus:ring-emerald-400 focus:border-transparent outline-none transition-all placeholder:text-gray-300 disabled:opacity-50"
+                  placeholder="••••••••"
+                  className="w-full bg-gray-50 border-2 border-transparent text-[#050a1e] py-4 pl-12 pr-12 rounded-2xl focus:border-[#00d1a0] focus:bg-white outline-none transition-all font-bold"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-emerald-500 transition-colors"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-300"
                 >
                   {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
               </div>
             </div>
             
-            <div className="flex justify-end">
-              <button
-                type="button"
-                onClick={handleForgotPassword}
-                className="text-emerald-500 text-sm font-semibold hover:text-emerald-600 flex items-center gap-1 transition-colors"
-              >
-                <HelpCircle size={14} />
-                Esqueci minha senha
-              </button>
-            </div>
+            <button type="button" className="text-[#00d1a0] text-xs font-bold uppercase tracking-widest hover:underline ml-1">
+              Esqueci minha senha
+            </button>
           </div>
 
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full bg-[#1a1c1e] text-white py-5 rounded-2xl font-bold text-lg active:scale-[0.98] transition-all flex items-center justify-center gap-3 shadow-xl mt-4 disabled:opacity-70"
+            className="w-full bg-[#050a1e] text-white py-5 rounded-[28px] font-black text-lg active:scale-[0.98] transition-all flex items-center justify-center gap-3 shadow-xl"
           >
-            {isLoading ? 'Entrando...' : 'Entrar'}
-            {!isLoading && <LogIn size={20} className="text-emerald-400" />}
+            {isLoading ? 'Conectando...' : 'Entrar Agora'}
+            {!isLoading && <LogIn size={20} className="text-[#00d1a0]" />}
           </button>
         </form>
 
-        <div className="mt-8 text-center">
-          <div className="flex flex-col gap-2">
-            <p className="text-gray-400 text-xs">Ainda não tem conta?</p>
-            <div className="flex justify-center gap-4">
-              <button 
-                onClick={() => navigate('/register-user')}
-                className="text-emerald-500 text-sm font-bold hover:underline"
-                disabled={isLoading}
-              >
-                Usuário
-              </button>
-              <span className="text-gray-200">|</span>
-              <button 
-                onClick={() => navigate('/register-server')}
-                className="text-blue-500 text-sm font-bold hover:underline"
-                disabled={isLoading}
-              >
-                Profissional
-              </button>
-            </div>
-          </div>
+        <div className="text-center">
+           <p className="text-gray-400 text-xs font-medium">Ainda não faz parte do AkiTen?</p>
+           <button onClick={() => navigate('/register-user')} className="text-[#2563eb] text-sm font-black uppercase tracking-widest mt-1">
+             Criar minha conta
+           </button>
         </div>
       </div>
-
-      <div className="absolute bottom-0 left-0 w-64 h-64 bg-emerald-500/5 rounded-full -ml-32 -mb-32 blur-3xl -z-10"></div>
     </div>
   );
 };

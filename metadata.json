@@ -1,6 +1,6 @@
 {
-  "name": "Conexão INHAMBUPE",
-  "description": "App de mobilidade urbana e serviços para Inhambupe. Sistema baseado em créditos pré-pagos para prestadores de serviços.",
+  "name": "AkiTen",
+  "description": "App oficial de mobilidade e serviços de Inhambupe-BA. Prático, rápido e na mão!",
   "requestFramePermissions": [
     "camera"
   ]
